@@ -1,0 +1,22 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "meu-test-frontend"
+  description: "meu teste"
+  links:
+    - url: https://api-meu-test-frontend-demob3.empcbr.thoughtworks-labs.net/api
+      title: meu-test-frontend
+      icon: dashboard
+  annotations:
+    circleci.com/project-slug: github/platform-dx/demo-dx-meu-test-front
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug:  platform-dx/demo-dx-meu-test-front
+    sonarqube.org/project-key: "meu-test-frontend"
+    backstage.io/kubernetes-label-selector: "app=meu-test-frontend"
+    backstage.io/adr-location: docs/adrs/
+spec:
+  type: service
+  lifecycle: experimental
+  owner: "platform-dx"
+  providesApis:
+    - "meu-test-frontend"

@@ -1,0 +1,58 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: meu-test-frontend-ingress
+spec:
+  rules:
+    - host: api-meu-test-frontend-demob3.empcbr.thoughtworks-labs.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: meu-test-frontend
+                port: 
+                  number: 80
+  tls:
+  - hosts:
+    - api-meu-test-frontend-demob3.empcbr.thoughtworks-labs.net
+    secretName: letencryptkey
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: meu-test-frontend
+spec:
+  ports:
+  - port: 80
+    targetPort: 3000
+  selector:
+    app: meu-test-frontend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meu-test-frontend
+  labels:
+    app: meu-test-frontend
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 5
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: meu-test-frontend
+  template:
+    metadata:
+      labels:
+        app: meu-test-frontend
+    spec:
+      containers:
+      - name: meu-test-frontend
+        image: 626109959667.dkr.ecr.us-east-1.amazonaws.com/meu-test-frontend:{image-tag}
+        ports:
+        - containerPort: 3000
